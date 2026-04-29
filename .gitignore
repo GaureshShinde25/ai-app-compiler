@@ -1,0 +1,11 @@
+# Python ignores
+venv/
+__pycache__/
+*.pyc
+
+# React ignores
+universal-sports-ui/node_modules/
+universal-sports-ui/dist/
+
+# Security
+.env
