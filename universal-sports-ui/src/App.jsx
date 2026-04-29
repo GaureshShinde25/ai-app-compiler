@@ -120,7 +120,7 @@ export default function App() {
             </button>
 
             <a 
-              href="http://localhost:8501" 
+              href="https://ai-app-compiler-vciafqd9oarp9aqwjr5ctu.streamlit.app/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="group px-8 py-4 bg-gray-800 border border-gray-700 hover:border-emerald-500 transition-all rounded-full font-bold text-lg flex items-center text-gray-300 hover:text-emerald-400 hover:-translate-y-1"
