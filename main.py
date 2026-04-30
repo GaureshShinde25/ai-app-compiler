@@ -37,6 +37,12 @@ def generate_database_with_repair(prompt: str, max_retries: int = 5, status_cont
     You are a Senior Database Architect. 
     Based on the following request, generate a relational database schema.
     Return ONLY a raw JSON object that perfectly matches the DatabaseSchema format.
+    
+    CRITICAL RULES FOR JSON OUTPUT:
+    - The root must contain a "tables" list.
+    - Each table must have a "name" and a "columns" list.
+    - Each column MUST use exactly these keys: "name", "data_type" (DO NOT USE "type"), "is_primary_key", "is_nullable", and "foreign_key".
+    
     Do not include any explanations or markdown formatting.
     
     Request: {prompt}
