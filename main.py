@@ -50,7 +50,7 @@ def generate_database_with_repair(prompt: str, max_retries: int = 5, status_cont
         try:
             # --- STEP 1: GENERATION ---
             response = client.models.generate_content(
-                model='gemini-1.5-flash',
+                model='gemini-2.5-flash',
                 contents=current_prompt,
             )
             
