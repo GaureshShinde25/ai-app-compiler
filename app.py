@@ -14,11 +14,14 @@ prompt = st.text_area(
 )
 
 if st.button("Generate Architecture"):
-    with st.spinner("Compiling database schema... (This takes about 5-10 seconds)"):
+    # THE MAGIC BOX: This creates an empty space on the screen for our live X-Ray logs
+    log_container = st.container()
+    
+    with st.spinner("Compiling database schema..."):
         try:
-            schema = generate_database_with_repair(prompt)
+            # We pass the log_container to main.py so it can print its thoughts to the screen
+            schema = generate_database_with_repair(prompt, max_retries=5, status_container=log_container)
             
-            # THE FIX: We explicitly check if the schema exists before declaring success!
             if schema is not None:
                 st.success("✅ Database Schema Generated Successfully!")
                 
@@ -29,9 +32,7 @@ if st.button("Generate Architecture"):
                 for sql in schema.generate_sql():
                     st.code(sql, language="sql")
             else:
-                # If it's None, it means the 5-step repair loop failed.
                 st.error("CRITICAL FAILURE: AI failed to generate a valid schema after all 5 attempts.")
-                st.info("💡 Look at the Streamlit Cloud logs (Manage App in the bottom right) to see exactly which SQL or Pydantic rule Gemini is getting stuck on!")
                 
         except Exception as e:
             st.error(f"System Error: {str(e)}")
