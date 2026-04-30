@@ -6,9 +6,10 @@ class Column(BaseModel):
     data_type: str = Field(..., description="The SQL data type (e.g., INTEGER, VARCHAR(255), DATE)")
     is_primary_key: bool = Field(default=False, description="True if this is the primary key")
     is_nullable: bool = Field(default=True, description="True if the column can be NULL")
+    # This specific description helps the AI avoid the 'dictionary' error you saw
     foreign_key: Optional[str] = Field(
         default=None, 
-        description="Reference format: target_table(target_column)"
+        description="MUST be a string in format 'table(column)'. Example: 'teams(id)'. DO NOT USE OBJECTS."
     )
 
 class Table(BaseModel):
@@ -40,7 +41,9 @@ class DatabaseSchema(BaseModel):
                 
                 # Build Foreign Key constraints
                 if col.foreign_key:
-                    foreign_keys.append(f"FOREIGN KEY ({col.name}) REFERENCES {col.foreign_key}")
+                    # Clean up the string just in case the AI adds spaces
+                    ref = col.foreign_key.strip()
+                    foreign_keys.append(f"FOREIGN KEY ({col.name}) REFERENCES {ref}")
             
             # Combine everything into one CREATE TABLE block
             all_defs = column_defs + foreign_keys

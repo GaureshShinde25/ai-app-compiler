@@ -33,6 +33,9 @@ def generate_database_with_repair(prompt: str, max_retries: int = 5, status_cont
     CRITICAL RULES:
     - Root: "tables" list.
     - Columns: MUST use "data_type" (not "type").
+    - Foreign Keys: MUST be a simple string in the format "table_name(column_name)". 
+      Example: "teams(id)"
+      DO NOT use a dictionary/object for foreign keys.
     - Return ONLY valid JSON. No talk.
     
     Request: {prompt}
