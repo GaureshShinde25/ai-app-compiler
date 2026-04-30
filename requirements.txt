@@ -1,3 +1,4 @@
-pydantic
-google-genai
 streamlit
+pydantic
+groq
+google-genai
