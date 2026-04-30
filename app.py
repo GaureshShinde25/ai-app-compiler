@@ -14,12 +14,11 @@ prompt = st.text_area(
 )
 
 if st.button("Generate Architecture"):
-    # THE MAGIC BOX: This creates an empty space on the screen for our live X-Ray logs
     log_container = st.container()
     
     with st.spinner("Compiling database schema..."):
         try:
-            # We pass the log_container to main.py so it can print its thoughts to the screen
+            # max_retries=5 ensures the repair loop has enough chances
             schema = generate_database_with_repair(prompt, max_retries=5, status_container=log_container)
             
             if schema is not None:
@@ -29,7 +28,9 @@ if st.button("Generate Architecture"):
                     st.json(schema.model_dump())
                     
                 st.subheader("Validated SQL Architecture")
-                for sql in schema.generate_sql():
+                # Calling the generate_sql method directly from our validated object
+                sql_list = schema.generate_sql() 
+                for sql in sql_list:
                     st.code(sql, language="sql")
             else:
                 st.error("CRITICAL FAILURE: AI failed to generate a valid schema after all 5 attempts.")
